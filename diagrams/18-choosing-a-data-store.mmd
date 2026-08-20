@@ -1,0 +1,19 @@
+flowchart TD
+    Q["What is the dominant access pattern?"]
+    Q --> A{"Do you need multi-row<br/>transactions and joins?"}
+    A -->|"yes"| REL["Relational — Postgres, MySQL<br/>or distributed SQL if it outgrows a node"]
+    A -->|"no"| B{"Access shape?"}
+
+    B -->|"key → value, point lookups"| KV["Key-value — Redis, DynamoDB<br/>sessions, counters, feature flags"]
+    B -->|"nested documents by id or field"| DOC["Document — MongoDB, DocumentDB<br/>catalogues, user profiles, CMS"]
+    B -->|"huge writes, wide rows, range scans by key"| WC["Wide-column — Cassandra, HBase, Bigtable<br/>time series, event history, messages"]
+    B -->|"relationships and traversals"| GR["Graph — Neo4j, Neptune<br/>social graph, fraud rings, recommendations"]
+    B -->|"append-only metrics over time"| TS["Time series — Timescale, InfluxDB, Prometheus<br/>monitoring, IoT, financial ticks"]
+    B -->|"full-text and relevance"| SE["Search — Elasticsearch, OpenSearch<br/>inverted index, faceting, ranking"]
+    B -->|"nearest neighbour on embeddings"| VEC["Vector — pgvector, Qdrant, Milvus<br/>semantic search, RAG"]
+    B -->|"analytical scans and aggregations"| OLAP["Columnar — ClickHouse, BigQuery, Snowflake<br/>dashboards, BI, ad-hoc analysis"]
+    B -->|"large immutable files"| OBJ["Object store — S3, GCS<br/>media, backups, data lake"]
+
+    style REL fill:#0b2545,color:#fff
+    style KV fill:#134e4a,color:#fff
+    style OLAP fill:#4a044e,color:#fff

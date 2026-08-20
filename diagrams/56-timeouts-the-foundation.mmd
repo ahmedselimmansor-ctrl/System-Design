@@ -1,0 +1,11 @@
+flowchart TD
+    subgraph bad["No timeout budget — cascading exhaustion"]
+        B1["Client waits 60 s"] --> B2["Gateway waits 60 s"] --> B3["Service A waits 60 s"] --> B4["Service B hangs"]
+        B4 --> B5["Every thread in A, gateway and client<br/>is blocked. Everything is down."]
+    end
+    subgraph good["Timeout budget — deadline propagation"]
+        G1["Client: 3000 ms deadline"] --> G2["Gateway: 2500 ms remaining"] --> G3["Service A: 2000 ms remaining"] --> G4["Service B: 1500 ms remaining"]
+        G4 --> G5["Each hop passes the REMAINING budget.<br/>Nobody works on a request<br/>the caller has already abandoned."]
+    end
+    style bad fill:#7d1128,color:#fff
+    style good fill:#14532d,color:#fff

@@ -1,0 +1,8 @@
+flowchart LR
+    S["64-bit id"] --> A["1 bit<br/>unused / sign"]
+    S --> B["41 bits<br/>milliseconds since a custom epoch<br/>≈ 69 years of range"]
+    S --> C["10 bits<br/>worker id<br/>1024 workers"]
+    S --> D["12 bits<br/>sequence within the same ms<br/>4096 ids/ms/worker"]
+    D --> R["4,096,000 ids per second per worker<br/>Roughly time-ordered globally"]
+    style B fill:#0b2545,color:#fff
+    style R fill:#14532d,color:#fff

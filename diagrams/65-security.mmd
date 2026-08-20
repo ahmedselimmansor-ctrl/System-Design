@@ -1,0 +1,9 @@
+flowchart TD
+    L1["Network — VPC, private subnets, security groups, no public databases"] --> L2["Edge — TLS 1.3, WAF, DDoS scrubbing, bot management"]
+    L2 --> L3["Identity — authentication, MFA, short-lived tokens"]
+    L3 --> L4["Authorisation — least privilege, per-resource checks on EVERY request"]
+    L4 --> L5["Application — input validation, output encoding, parameterised queries"]
+    L5 --> L6["Data — encryption at rest and in transit, field-level for PII, tokenisation"]
+    L6 --> L7["Secrets — a vault, rotation, never in code or environment files in git"]
+    L7 --> L8["Audit — immutable logs of who did what to which record, and when"]
+    style L4 fill:#7d1128,color:#fff

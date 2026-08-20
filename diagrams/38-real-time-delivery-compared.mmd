@@ -1,0 +1,26 @@
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+
+    Note over C,S: Short polling — simple, wasteful
+    loop every 5 s
+        C->>S: GET /messages?since=X
+        S-->>C: [] (usually empty)
+    end
+
+    Note over C,S: Long polling — server holds the request
+    C->>S: GET /messages?since=X
+    Note over S: hold up to 30 s
+    S-->>C: [msg] as soon as one exists
+    C->>S: immediately re-issue
+
+    Note over C,S: SSE — one persistent stream, server pushes
+    C->>S: GET /stream  (Accept: text/event-stream)
+    S-->>C: event: message
+    S-->>C: event: message
+
+    Note over C,S: WebSocket — full duplex
+    C->>S: HTTP Upgrade
+    S-->>C: 101 Switching Protocols
+    C->>S: send
+    S-->>C: push

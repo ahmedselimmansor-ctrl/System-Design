@@ -1,0 +1,14 @@
+flowchart TD
+    subgraph ring["The hash ring — 0 to 2^32"]
+        direction LR
+        N1["Node A<br/>position 0"]
+        K1["key: user:42<br/>→ Node B"]
+        N2["Node B<br/>position 90"]
+        K2["key: user:77<br/>→ Node C"]
+        N3["Node C<br/>position 180"]
+        K3["key: user:13<br/>→ Node D"]
+        N4["Node D<br/>position 270"]
+        K4["key: user:99<br/>→ Node A (wraps)"]
+        N1 --> K1 --> N2 --> K2 --> N3 --> K3 --> N4 --> K4 --> N1
+    end
+    style ring fill:#0b2545,color:#fff

@@ -1,0 +1,11 @@
+flowchart LR
+    subgraph before["Before — 4 nodes"]
+        B["Node C owns arc 90-180"]
+    end
+    subgraph after["After — add Node E at 135"]
+        A1["Node E owns 90-135"]
+        A2["Node C owns 135-180"]
+        A3["Every other arc is untouched"]
+    end
+    before -->|"only keys in 90-135 move"| after
+    style after fill:#14532d,color:#fff

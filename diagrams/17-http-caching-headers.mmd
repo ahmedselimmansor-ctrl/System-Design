@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant B as Browser
+    participant C as CDN edge
+    participant O as Origin
+
+    B->>C: GET /api/feed
+    C->>O: GET /api/feed  (cold)
+    O-->>C: 200, Cache-Control: s-maxage=60, stale-while-revalidate=600, ETag "v1"
+    C-->>B: 200 + body
+
+    Note over C: within 60 s — fresh
+    B->>C: GET /api/feed
+    C-->>B: 200 from cache (0 origin traffic)
+
+    Note over C: 60-660 s — stale but usable
+    B->>C: GET /api/feed
+    C-->>B: 200 stale, immediately
+    C->>O: revalidate in background
+    O-->>C: 304 Not Modified
+    Note over C: freshness extended, user never waited

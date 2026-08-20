@@ -1,0 +1,69 @@
+flowchart TD
+    subgraph client["Client tier"]
+        WEB["Web / SPA"]
+        MOB["Mobile app"]
+        SDK["Partner API clients"]
+    end
+
+    subgraph edge["Edge tier — as close to the user as possible"]
+        DNS["DNS<br/>GeoDNS / latency routing"]
+        CDN["CDN<br/>static + cacheable dynamic"]
+        WAF["WAF / DDoS scrubbing"]
+        GLB["Global load balancer<br/>anycast"]
+    end
+
+    subgraph app["Application tier — stateless, horizontally scalable"]
+        GW["API gateway<br/>authn, rate limit, routing"]
+        BFF["BFF layer<br/>per-client aggregation"]
+        S1["Service A"]
+        S2["Service B"]
+        S3["Service C"]
+    end
+
+    subgraph data["Data tier — stateful, the hard part"]
+        CACHE["Distributed cache<br/>Redis / Memcached"]
+        OLTP["Primary store<br/>relational or NoSQL"]
+        SEARCH["Search index<br/>inverted index"]
+        BLOB["Object storage<br/>media, backups"]
+    end
+
+    subgraph async["Asynchronous tier"]
+        MQ["Message broker<br/>queue or log"]
+        WRK["Workers<br/>consumers"]
+        SCH["Schedulers / cron"]
+    end
+
+    subgraph analytics["Analytics tier — offline"]
+        LAKE["Data lake"]
+        WH["Warehouse"]
+        ML["Feature store / models"]
+    end
+
+    subgraph obs["Cross-cutting"]
+        MON["Metrics, logs, traces"]
+        CFG["Config / feature flags"]
+        SEC["Secrets / identity"]
+    end
+
+    WEB --> DNS
+    MOB --> DNS
+    SDK --> DNS
+    DNS --> CDN --> WAF --> GLB --> GW
+    GW --> BFF --> S1 & S2 & S3
+    S1 & S2 & S3 --> CACHE
+    CACHE -.->|"miss"| OLTP
+    S1 & S2 & S3 --> OLTP
+    S2 --> SEARCH
+    S3 --> BLOB
+    S1 & S2 & S3 -->|"publish events"| MQ
+    MQ --> WRK --> OLTP
+    SCH --> MQ
+    MQ --> LAKE --> WH --> ML
+    ML -.->|"serve"| S3
+    app -.-> obs
+    data -.-> obs
+
+    style edge fill:#0b2545,color:#fff
+    style app fill:#134e4a,color:#fff
+    style data fill:#4a044e,color:#fff
+    style async fill:#422006,color:#fff

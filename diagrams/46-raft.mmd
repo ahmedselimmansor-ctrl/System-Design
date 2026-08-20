@@ -1,0 +1,8 @@
+stateDiagram-v2
+    [*] --> Follower
+    Follower --> Candidate: election timeout<br/>no heartbeat from a leader
+    Candidate --> Candidate: split vote<br/>randomised timeout, retry
+    Candidate --> Leader: receives votes from a majority
+    Candidate --> Follower: discovers a leader<br/>or a higher term
+    Leader --> Follower: discovers a higher term
+    Leader --> Leader: send heartbeats<br/>replicate log entries

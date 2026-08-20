@@ -1,0 +1,19 @@
+flowchart TD
+    subgraph SR["Single region, multi-AZ"]
+        S1["AZ-a"] --- S2["AZ-b"] --- S3["AZ-c"]
+        SN["Survives a datacentre.<br/>Sync replication, ~1 ms apart.<br/>The right default for most systems."]
+    end
+    subgraph AP["Active-passive"]
+        A1["Region 1 — all traffic"] -->|"async replication"| A2["Region 2 — warm standby"]
+        AN["Simple. RPO = replication lag.<br/>RTO = failover time.<br/>Standby capacity sits idle."]
+    end
+    subgraph AR["Active-active, partitioned by user"]
+        R1["Region 1 — EU users, EU data"] <-.->|"replicate for failover"| R2["Region 2 — US users, US data"]
+        RN["No write conflicts by construction.<br/>Each region owns its users.<br/>Cross-region reads are slow."]
+    end
+    subgraph AA["Active-active, fully shared"]
+        F1["Region 1 — writes anything"] <-->|"bidirectional"| F2["Region 2 — writes anything"]
+        FN["Highest availability.<br/>CONFLICTS ARE INEVITABLE —<br/>needs CRDTs, LWW, or app resolution."]
+    end
+    style SR fill:#14532d,color:#fff
+    style AA fill:#7d1128,color:#fff

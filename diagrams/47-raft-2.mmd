@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant C as Client
+    participant L as Leader
+    participant F1 as Follower 1
+    participant F2 as Follower 2
+
+    C->>L: write x = 5
+    L->>L: append to local log (uncommitted)
+    par replicate
+        L->>F1: AppendEntries(x=5, term, prevIndex)
+        L->>F2: AppendEntries(x=5, term, prevIndex)
+    end
+    F1-->>L: ack
+    Note over L: majority reached (leader + F1 of 3)
+    L->>L: mark COMMITTED, apply to state machine
+    L-->>C: success
+    F2-->>L: ack (late — fine)
+    L->>F1: next heartbeat carries commitIndex
+    L->>F2: next heartbeat carries commitIndex

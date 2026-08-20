@@ -1,0 +1,15 @@
+flowchart TD
+    subgraph q["Message queue — RabbitMQ, SQS"]
+        QP["Producer"] --> QQ["Queue"]
+        QQ -->|"message deleted<br/>after ack"| QC1["Consumer 1"]
+        QQ --> QC2["Consumer 2"]
+        QN["Competing consumers<br/>Message consumed once, then gone<br/>Per-message ack and redelivery<br/>Cannot replay history"]
+    end
+    subgraph l["Distributed log — Kafka, Pulsar, Kinesis"]
+        LP["Producer"] --> LL["Partitioned append-only log<br/>messages retained by time or size"]
+        LL --> LG1["Consumer group A<br/>offset 1042"]
+        LL --> LG2["Consumer group B<br/>offset 87"]
+        LN["Messages persist after reading<br/>Each group has its own offset<br/>Replay from any point<br/>Ordering guaranteed per partition"]
+    end
+    style q fill:#0b2545,color:#fff
+    style l fill:#134e4a,color:#fff

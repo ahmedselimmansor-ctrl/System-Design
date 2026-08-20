@@ -1,0 +1,7 @@
+flowchart TD
+    P["3 physical nodes"] --> V["Each claims 150 ring positions"]
+    V --> R["450 small arcs, interleaved"]
+    R --> B1["Load variance drops sharply"]
+    R --> B2["Removing a node spreads its load<br/>across ALL survivors, not just the next one"]
+    R --> B3["Heterogeneous capacity:<br/>a bigger machine claims more positions"]
+    style R fill:#14532d,color:#fff

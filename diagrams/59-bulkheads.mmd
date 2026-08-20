@@ -1,0 +1,15 @@
+flowchart TD
+    subgraph shared["Shared pool — one failure sinks the ship"]
+        SP["200 threads, shared"] --> S1["Service A — healthy"]
+        SP --> S2["Service B — hanging"]
+        SP --> S3["Service C — healthy"]
+        SN["B consumes all 200 threads.<br/>A and C now fail too."]
+    end
+    subgraph bulk["Bulkheads — damage stays in one compartment"]
+        B1["Pool A: 60 threads"] --> T1["Service A"]
+        B2["Pool B: 60 threads"] --> T2["Service B — hanging"]
+        B3["Pool C: 60 threads"] --> T3["Service C"]
+        BN["B exhausts only its own 60.<br/>A and C are unaffected."]
+    end
+    style shared fill:#7d1128,color:#fff
+    style bulk fill:#14532d,color:#fff

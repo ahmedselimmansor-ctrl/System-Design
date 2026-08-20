@@ -1,0 +1,11 @@
+flowchart LR
+    C["Clients"] --> GW["API gateway"]
+    GW --> F1["TLS termination"]
+    GW --> F2["AuthN — verify token"]
+    GW --> F3["Rate limiting and quotas"]
+    GW --> F4["Request routing"]
+    GW --> F5["Request/response transformation"]
+    GW --> F6["Aggregation / fan-out"]
+    GW --> F7["Logging, tracing, metrics"]
+    GW --> S1["Service A"] & S2["Service B"] & S3["Service C"]
+    style GW fill:#0b2545,color:#fff

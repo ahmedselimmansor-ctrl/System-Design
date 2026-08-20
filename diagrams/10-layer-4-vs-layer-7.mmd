@@ -1,0 +1,15 @@
+flowchart TD
+    subgraph L4["Layer 4 — transport"]
+        C4["Client"] --> LB4["L4 balancer<br/>sees IP + port only"]
+        LB4 -->|"forwards packets/connections"| B41["Backend 1"]
+        LB4 --> B42["Backend 2"]
+        N4["Fast, cheap, protocol-agnostic<br/>No content routing<br/>TLS passes through"]
+    end
+    subgraph L7["Layer 7 — application"]
+        C7["Client"] --> LB7["L7 balancer<br/>parses HTTP"]
+        LB7 -->|"/api/users → pool A"| B71["Users service"]
+        LB7 -->|"/api/orders → pool B"| B72["Orders service"]
+        N7["Path/header/cookie routing<br/>TLS termination, compression<br/>Retries, rewriting, auth<br/>Higher CPU cost"]
+    end
+    style L4 fill:#0b2545,color:#fff
+    style L7 fill:#134e4a,color:#fff

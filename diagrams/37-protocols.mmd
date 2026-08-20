@@ -1,0 +1,11 @@
+flowchart TD
+    Q["What is the interaction?"]
+    Q -->|"public API, cacheable, broad clients"| REST["REST / HTTP+JSON"]
+    Q -->|"internal service-to-service, low latency"| GRPC["gRPC / Protobuf"]
+    Q -->|"client picks the fields, many screens"| GQL["GraphQL"]
+    Q -->|"bidirectional, low latency, persistent"| WS["WebSocket"]
+    Q -->|"server → client stream only"| SSE["Server-Sent Events"]
+    Q -->|"client can poll but wants freshness"| LP["Long polling"]
+    Q -->|"fire and forget, decoupled"| MSG["Messaging"]
+    style GRPC fill:#134e4a,color:#fff
+    style REST fill:#0b2545,color:#fff

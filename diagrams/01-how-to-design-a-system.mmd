@@ -1,0 +1,16 @@
+flowchart TD
+    S1["1. Clarify requirements<br/>functional + non-functional"] --> S2["2. Define the API<br/>what enters and leaves the system"]
+    S2 --> S3["3. Estimate scale<br/>QPS, storage, bandwidth, connections"]
+    S3 --> S4["4. Sketch the high-level design<br/>boxes and arrows, 5 to 9 boxes"]
+    S4 --> S5["5. Design the data model<br/>entities, access patterns, store choice"]
+    S5 --> S6["6. Deep dive the hard part<br/>the one component the scale breaks"]
+    S6 --> S7["7. Identify bottlenecks<br/>single points of failure, hot spots"]
+    S7 --> S8["8. Scale and harden<br/>caching, sharding, replication, resilience"]
+    S8 --> S9["9. State the trade-offs<br/>what you gave up and when you would flip"]
+
+    S3 -.->|"numbers change the shape"| S4
+    S7 -.->|"iterate"| S4
+
+    style S1 fill:#0d3b66,color:#fff
+    style S6 fill:#7d1128,color:#fff
+    style S9 fill:#14532d,color:#fff

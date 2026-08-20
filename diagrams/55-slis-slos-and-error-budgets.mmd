@@ -1,0 +1,8 @@
+flowchart LR
+    SLI["SLI — Service Level Indicator<br/>a measurement<br/>'fraction of requests &lt; 300 ms'"] --> SLO["SLO — Objective<br/>an internal target<br/>'99.9% over 28 days'"]
+    SLO --> EB["Error budget<br/>100% − 99.9% = 0.1%<br/>≈ 43 minutes per 28 days"]
+    SLO --> SLA["SLA — Agreement<br/>a contract with penalties<br/>always looser than the SLO"]
+    EB --> P1["Budget remaining<br/>⇒ ship features, take risks"]
+    EB --> P2["Budget exhausted<br/>⇒ freeze features, fix reliability"]
+    style EB fill:#0b2545,color:#fff
+    style P2 fill:#7d1128,color:#fff

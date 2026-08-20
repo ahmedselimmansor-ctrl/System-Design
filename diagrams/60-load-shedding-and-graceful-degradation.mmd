@@ -1,0 +1,9 @@
+flowchart TD
+    L["Load exceeds capacity"] --> P["Priority classes"]
+    P --> P1["P0: checkout, payments, login<br/>never shed"]
+    P --> P2["P1: browsing, search<br/>shed at 90% capacity"]
+    P --> P3["P2: recommendations, related items<br/>shed at 70% capacity"]
+    P --> P4["P3: analytics, prefetch, A/B logging<br/>shed first"]
+    P3 --> D["Degrade: serve a static fallback<br/>instead of a personalised one"]
+    style P1 fill:#14532d,color:#fff
+    style P4 fill:#7d1128,color:#fff

@@ -1,0 +1,4 @@
+flowchart LR
+    E1["1. Expand<br/>add the new nullable column<br/>old code ignores it"] --> E2["2. Dual write<br/>new code writes both<br/>old and new"] --> E3["3. Backfill<br/>populate historical rows in batches"] --> E4["4. Migrate reads<br/>new code reads the new column"] --> E5["5. Contract<br/>stop writing the old column,<br/>then drop it — a separate release"]
+    style E1 fill:#14532d,color:#fff
+    style E5 fill:#0b2545,color:#fff

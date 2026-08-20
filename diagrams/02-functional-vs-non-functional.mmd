@@ -1,0 +1,20 @@
+flowchart LR
+    subgraph F["Functional — what it does"]
+        F1["Users can post"]
+        F2["Users can follow"]
+        F3["Users see a feed"]
+        F4["Users can search"]
+    end
+    subgraph NF["Non-functional — what shapes the design"]
+        N1["Latency: p99 &lt; 200 ms"]
+        N2["Availability: 99.99%"]
+        N3["Durability: never lose a post"]
+        N4["Scale: 100M DAU"]
+        N5["Consistency: feed may lag 5 s"]
+        N6["Cost: &lt; $0.02 per user per month"]
+    end
+    F --> D["Design"]
+    NF ==>|"these are the real constraints"| D
+
+    style NF fill:#3b0d0d,color:#fff
+    style D fill:#0d3b66,color:#fff

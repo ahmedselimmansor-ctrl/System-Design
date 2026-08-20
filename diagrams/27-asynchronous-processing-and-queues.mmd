@@ -1,0 +1,14 @@
+flowchart TD
+    subgraph sync["Synchronous — user waits for everything"]
+        S1["POST /upload"] --> S2["Store file<br/>200 ms"] --> S3["Generate thumbnails<br/>3 s"] --> S4["Virus scan<br/>2 s"] --> S5["Index for search<br/>500 ms"] --> S6["Notify followers<br/>1 s"] --> S7["Respond<br/>total 6.7 s"]
+    end
+    subgraph async["Asynchronous — user waits for the essential part"]
+        A1["POST /upload"] --> A2["Store file<br/>200 ms"] --> A3["Publish event"] --> A4["Respond 202<br/>total 210 ms"]
+        A3 --> Q["Message broker"]
+        Q --> W1["Thumbnailer"]
+        Q --> W2["Scanner"]
+        Q --> W3["Indexer"]
+        Q --> W4["Notifier"]
+    end
+    style sync fill:#3b0d0d,color:#fff
+    style async fill:#14532d,color:#fff

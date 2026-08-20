@@ -1,0 +1,22 @@
+sequenceDiagram
+    participant C as Client
+    participant S as Service
+    participant DB as Database
+
+    C->>S: POST /payments  Idempotency-Key: 7f3a-...
+    S->>DB: INSERT idempotency_keys(key, status=IN_PROGRESS)<br/>UNIQUE constraint on key
+    DB-->>S: inserted — first time
+    S->>S: charge the card
+    S->>DB: store response body, status=COMPLETED
+    S-->>C: 201 Created
+
+    Note over C,S: network drops the response, client retries
+    C->>S: POST /payments  Idempotency-Key: 7f3a-...  (same body)
+    S->>DB: INSERT idempotency_keys(...)
+    DB-->>S: UNIQUE VIOLATION — already exists
+    S->>DB: read stored response
+    S-->>C: 201 Created (identical body, no second charge)
+
+    Note over C,S: concurrent duplicate while still IN_PROGRESS
+    C->>S: POST /payments  Idempotency-Key: 7f3a-...
+    S-->>C: 409 Conflict — request in progress, retry shortly

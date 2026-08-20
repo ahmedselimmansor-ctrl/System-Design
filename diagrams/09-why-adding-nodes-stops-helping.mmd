@@ -1,0 +1,8 @@
+flowchart LR
+    N["More nodes"] --> L["Linear ideal"]
+    N --> C["Contention<br/>shared locks, shared DB, shared queue"]
+    N --> H["Coherency<br/>cross-node coordination, gossip, consensus"]
+    C --> S["Sublinear scaling"]
+    H --> D["Retrograde scaling<br/>throughput falls as nodes are added"]
+    style D fill:#7d1128,color:#fff
+    style L fill:#14532d,color:#fff

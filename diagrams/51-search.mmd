@@ -1,0 +1,15 @@
+flowchart TD
+    subgraph fwd["Forward index — what a database has"]
+        D1["doc1 → 'the quick brown fox'"]
+        D2["doc2 → 'the lazy brown dog'"]
+    end
+    subgraph inv["Inverted index — what search needs"]
+        T1["quick → [doc1]"]
+        T2["brown → [doc1, doc2]"]
+        T3["fox → [doc1]"]
+        T4["lazy → [doc2]"]
+        T5["dog → [doc2]"]
+    end
+    fwd -->|"analysis: tokenise, lowercase,<br/>remove stopwords, stem"| inv
+    inv --> Q["Query 'brown fox'<br/>intersect postings lists<br/>→ doc1 scores highest"]
+    style inv fill:#134e4a,color:#fff

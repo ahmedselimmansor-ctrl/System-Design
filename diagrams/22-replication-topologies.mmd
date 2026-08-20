@@ -1,0 +1,21 @@
+flowchart TD
+    subgraph SL["Single leader"]
+        SLW["Writes"] --> SLL["Leader"]
+        SLL -->|"replicate"| SLF1["Follower 1"]
+        SLL -->|"replicate"| SLF2["Follower 2"]
+        SLF1 --> SLR["Reads"]
+        SLF2 --> SLR
+    end
+    subgraph ML["Multi leader"]
+        MLA["Leader — US"] <-->|"bidirectional"| MLB["Leader — EU"]
+        MLB <--> MLC["Leader — APAC"]
+        MLA <--> MLC
+        MLN["Conflicts are inevitable<br/>needs a resolution policy"]
+    end
+    subgraph LL["Leaderless — quorum"]
+        LLW["Write to W nodes"] --> LLN1["Node 1"] & LLN2["Node 2"] & LLN3["Node 3"]
+        LLR["Read from R nodes<br/>R + W &gt; N ⇒ overlap"] --> LLN1
+    end
+    style SL fill:#0b2545,color:#fff
+    style ML fill:#3b0d0d,color:#fff
+    style LL fill:#134e4a,color:#fff

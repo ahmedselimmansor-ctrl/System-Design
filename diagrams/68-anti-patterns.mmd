@@ -1,0 +1,29 @@
+flowchart TD
+    subgraph A["Architecture"]
+        A1["Distributed monolith<br/>services that must deploy together"]
+        A2["Shared database across services<br/>schema change breaks four teams"]
+        A3["Nanoservices<br/>more network hops than logic"]
+        A4["God service<br/>everything routes through one component"]
+    end
+    subgraph B["Data"]
+        B1["No partition key strategy<br/>every query scatters to every shard"]
+        B2["Sharding before it is needed<br/>complexity with no benefit"]
+        B3["Caching without invalidation<br/>permanently wrong data"]
+        B4["Unbounded queries<br/>SELECT * with no LIMIT"]
+    end
+    subgraph C["Resilience"]
+        C1["No timeouts<br/>one slow dependency hangs everything"]
+        C2["Retries at every layer<br/>3x3x3 = 27 attempts"]
+        C3["Unbounded queues<br/>defers failure, then amplifies it"]
+        C4["Health checks that fail on shared deps<br/>ejects the entire fleet at once"]
+    end
+    subgraph D["Process"]
+        D1["No SLOs<br/>'is it fast enough?' has no answer"]
+        D2["Untested backups and failover"]
+        D3["Alerting on causes, not symptoms<br/>pages nobody can action"]
+        D4["Designing for 1000x on day one"]
+    end
+    style A fill:#7d1128,color:#fff
+    style B fill:#7d1128,color:#fff
+    style C fill:#7d1128,color:#fff
+    style D fill:#7d1128,color:#fff

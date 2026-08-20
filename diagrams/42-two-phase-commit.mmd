@@ -1,0 +1,22 @@
+sequenceDiagram
+    participant C as Coordinator
+    participant A as Participant A
+    participant B as Participant B
+
+    Note over C,B: Phase 1 — prepare
+    C->>A: PREPARE
+    C->>B: PREPARE
+    A->>A: write to log, LOCK resources
+    B->>B: write to log, LOCK resources
+    A-->>C: VOTE YES
+    B-->>C: VOTE YES
+
+    Note over C,B: Phase 2 — commit
+    C->>C: durably record decision: COMMIT
+    C->>A: COMMIT
+    C->>B: COMMIT
+    A-->>C: ACK (locks released)
+    B-->>C: ACK (locks released)
+
+    Note over C,B: The failure that defines 2PC
+    Note over A,B: If the coordinator dies after PREPARE,<br/>participants hold locks indefinitely.<br/>2PC is a BLOCKING protocol.

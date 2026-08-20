@@ -1,0 +1,11 @@
+flowchart LR
+    S["Strict serialisability<br/>appears as one machine<br/>executing in real-time order"] --> L["Linearisability<br/>single-object real-time order"]
+    L --> SE["Sequential consistency<br/>some global order,<br/>respects each client's order"]
+    SE --> CA["Causal consistency<br/>causally related ops<br/>seen in order by everyone"]
+    CA --> SS["Session guarantees<br/>read-your-writes, monotonic reads,<br/>monotonic writes, writes-follow-reads"]
+    SS --> E["Eventual consistency<br/>replicas converge if writes stop"]
+
+    style S fill:#0b2545,color:#fff
+    style L fill:#0b2545,color:#fff
+    style CA fill:#134e4a,color:#fff
+    style E fill:#3b0d0d,color:#fff

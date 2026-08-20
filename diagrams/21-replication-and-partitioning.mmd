@@ -1,0 +1,19 @@
+flowchart TD
+    subgraph rep["Replication — same data, many nodes"]
+        R1["Node 1<br/>rows 1-1000"]
+        R2["Node 2<br/>rows 1-1000"]
+        R3["Node 3<br/>rows 1-1000"]
+    end
+    subgraph part["Partitioning — different data, many nodes"]
+        P1["Node 1<br/>rows 1-333"]
+        P2["Node 2<br/>rows 334-666"]
+        P3["Node 3<br/>rows 667-1000"]
+    end
+    subgraph both["Both — the real world"]
+        B1["Shard A<br/>leader + 2 followers"]
+        B2["Shard B<br/>leader + 2 followers"]
+        B3["Shard C<br/>leader + 2 followers"]
+    end
+    rep -->|"survives node loss<br/>scales reads"| both
+    part -->|"scales writes<br/>scales storage"| both
+    style both fill:#134e4a,color:#fff

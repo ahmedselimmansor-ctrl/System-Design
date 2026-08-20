@@ -1,0 +1,9 @@
+stateDiagram-v2
+    [*] --> Closed
+    Closed --> Open: failure rate exceeds threshold<br/>e.g. 50% over a 10 s rolling window
+    Open --> HalfOpen: after a cool-down period<br/>e.g. 30 s
+    HalfOpen --> Closed: trial requests succeed
+    HalfOpen --> Open: a trial request fails
+    Closed --> Closed: calls pass through
+    Open --> Open: calls fail immediately,<br/>no network attempt
+    HalfOpen --> HalfOpen: only a few probes allowed

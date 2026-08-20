@@ -1,0 +1,15 @@
+flowchart TD
+    P["Network partition occurs<br/>nodes cannot reach each other"]
+    P --> CP["CP — choose consistency<br/>minority side refuses reads/writes"]
+    P --> AP["AP — choose availability<br/>both sides serve, reconcile later"]
+
+    CP --> CP1["Every response is correct"]
+    CP --> CP2["Some requests fail or block"]
+    CP --> CP3["Examples: etcd, ZooKeeper, Spanner,<br/>HBase, single-leader RDBMS"]
+
+    AP --> AP1["Every request gets a response"]
+    AP --> AP2["Responses may be stale or conflicting"]
+    AP --> AP3["Examples: Cassandra, DynamoDB default,<br/>Riak, DNS, CRDT stores"]
+
+    style CP fill:#0b2545,color:#fff
+    style AP fill:#134e4a,color:#fff

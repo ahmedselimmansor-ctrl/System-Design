@@ -1,0 +1,8 @@
+flowchart TD
+    N["N = 5 replicas"] --> W["W = 3 write quorum"]
+    N --> R["R = 3 read quorum"]
+    W --> O["R + W &gt; N  ⇒  read and write sets overlap<br/>⇒ every read sees the latest write"]
+    O --> T1["W = N, R = 1<br/>fast reads, slow writes<br/>read-heavy workloads"]
+    O --> T2["W = 1, R = N<br/>fast writes, slow reads<br/>write-heavy workloads"]
+    O --> T3["W = R = ⌈(N+1)/2⌉<br/>balanced — the usual choice"]
+    style O fill:#14532d,color:#fff

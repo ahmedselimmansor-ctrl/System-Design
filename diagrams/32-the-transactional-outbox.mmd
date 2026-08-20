@@ -1,0 +1,22 @@
+sequenceDiagram
+    participant S as Service
+    participant DB as Database
+    participant R as Relay / CDC
+    participant MQ as Broker
+    participant C as Consumer
+
+    S->>DB: BEGIN
+    S->>DB: INSERT INTO orders ...
+    S->>DB: INSERT INTO outbox (event, payload, created_at)
+    S->>DB: COMMIT
+    Note over DB: One atomic commit — both rows or neither
+
+    loop poll, or tail the WAL via CDC
+        R->>DB: SELECT unpublished FROM outbox
+        R->>MQ: publish
+        MQ-->>R: ack
+        R->>DB: mark published (or delete)
+    end
+
+    MQ->>C: deliver (possibly more than once)
+    C->>C: check dedup key → idempotent apply

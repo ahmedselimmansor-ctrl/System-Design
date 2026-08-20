@@ -1,0 +1,10 @@
+flowchart TD
+    subgraph fwd["Forward path"]
+        T1["T1: create order<br/>status = PENDING"] --> T2["T2: reserve inventory"] --> T3["T3: authorise payment"] --> T4["T4: create shipment"] --> T5["T5: confirm order<br/>status = CONFIRMED"]
+    end
+    subgraph comp["Compensating path — on failure at T4"]
+        C4["T4 fails"] --> C3["C3: void payment authorisation"] --> C2["C2: release inventory reservation"] --> C1["C1: cancel order<br/>status = CANCELLED"]
+    end
+    T4 -.->|"failure"| C4
+    style fwd fill:#134e4a,color:#fff
+    style comp fill:#7d1128,color:#fff

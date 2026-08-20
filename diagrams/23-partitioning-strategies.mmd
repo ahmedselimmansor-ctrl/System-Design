@@ -1,0 +1,18 @@
+flowchart TD
+    subgraph RG["Range partitioning"]
+        RG1["A-F → node 1"]
+        RG2["G-M → node 2"]
+        RG3["N-Z → node 3"]
+        RGN["Range scans are efficient<br/>Sequential keys create hot spots"]
+    end
+    subgraph HS["Hash partitioning"]
+        HS1["hash(key) % N → node"]
+        HSN["Even distribution<br/>Range scans require fan-out<br/>Resizing moves nearly everything"]
+    end
+    subgraph CM["Composite — hash + range"]
+        CM1["hash(user_id) picks the node"]
+        CM2["timestamp orders within the node"]
+        CMN["Even spread AND efficient<br/>per-user time range scans"]
+    end
+    style CM fill:#14532d,color:#fff
+    style RG fill:#0b2545,color:#fff

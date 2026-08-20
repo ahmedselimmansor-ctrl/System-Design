@@ -1,0 +1,13 @@
+flowchart TD
+    subgraph aside["Cache-aside — lazy loading (most common)"]
+        A1["App: GET key"] --> A2{"in cache?"}
+        A2 -->|"hit"| A3["return"]
+        A2 -->|"miss"| A4["read DB"] --> A5["write to cache with TTL"] --> A3
+    end
+    subgraph through["Read-through — cache owns the read path"]
+        B1["App: GET key"] --> B2["Cache library/proxy"]
+        B2 -->|"miss"| B3["loader reads DB, populates"] --> B4["return"]
+        B2 -->|"hit"| B4
+    end
+    style aside fill:#134e4a,color:#fff
+    style through fill:#0b2545,color:#fff

@@ -1,0 +1,19 @@
+flowchart TD
+    subgraph tb["Token bucket — allows bursts"]
+        T1["Bucket holds up to B tokens"] --> T2["Refill at R tokens/sec"] --> T3["Request costs 1 token"] --> T4["Empty ⇒ reject"]
+        T5["Burst up to B, sustained rate R<br/>Most widely used"]
+    end
+    subgraph lb["Leaky bucket — smooths output"]
+        L1["Requests enter a queue"] --> L2["Drain at a fixed rate"] --> L3["Queue full ⇒ reject"]
+        L4["Perfectly smooth downstream load<br/>Adds queueing latency"]
+    end
+    subgraph fw["Fixed window — simple, flawed"]
+        F1["Count per calendar minute"] --> F2["Reset at the boundary"]
+        F3["2x the limit can straddle a boundary<br/>Cheap: one counter per key"]
+    end
+    subgraph sw["Sliding window — accurate"]
+        S1["Log of timestamps, or<br/>weighted blend of two windows"] --> S2["No boundary spike"]
+        S3["Log is exact but memory-heavy<br/>Counter blend is the practical choice"]
+    end
+    style tb fill:#14532d,color:#fff
+    style fw fill:#3b0d0d,color:#fff

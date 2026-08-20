@@ -1,0 +1,17 @@
+flowchart TD
+    subgraph P1["Thundering herd / stampede"]
+        T1["Hot key expires"] --> T2["10,000 concurrent misses"] --> T3["10,000 identical DB queries"] --> T4["DB collapses"]
+    end
+    subgraph P2["Cache penetration"]
+        U1["Requests for keys that do not exist"] --> U2["Never cacheable"] --> U3["Every request hits the DB"]
+    end
+    subgraph P3["Cache avalanche"]
+        V1["Many keys share one expiry time"] --> V2["Mass simultaneous expiry"] --> V3["Origin overwhelmed"]
+    end
+    subgraph P4["Hot key"]
+        W1["One key gets 40% of all traffic"] --> W2["One cache shard saturates"] --> W3["Tail latency spikes"]
+    end
+    style P1 fill:#7d1128,color:#fff
+    style P2 fill:#7d1128,color:#fff
+    style P3 fill:#7d1128,color:#fff
+    style P4 fill:#7d1128,color:#fff

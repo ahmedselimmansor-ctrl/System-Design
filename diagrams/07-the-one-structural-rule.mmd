@@ -1,0 +1,14 @@
+flowchart LR
+    subgraph bad["Stateful app servers — avoid"]
+        LB1["Load balancer<br/>sticky sessions"] --> A1["App 1<br/>holds session for user X"]
+        LB1 --> A2["App 2<br/>holds session for user Y"]
+        A1 -.->|"node dies:<br/>X is logged out"| X1["Session lost"]
+    end
+    subgraph good["Stateless app servers — prefer"]
+        LB2["Load balancer<br/>any node"] --> B1["App 1"]
+        LB2 --> B2["App 2"]
+        LB2 --> B3["App 3"]
+        B1 & B2 & B3 --> ST["Session store<br/>Redis / signed token"]
+    end
+    style bad fill:#3b0d0d,color:#fff
+    style good fill:#14532d,color:#fff

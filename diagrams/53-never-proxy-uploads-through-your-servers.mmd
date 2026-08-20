@@ -1,0 +1,32 @@
+sequenceDiagram
+    participant C as Client
+    participant A as API
+    participant S as Object store
+    participant Q as Queue
+    participant W as Worker
+    participant CDN as CDN
+
+    C->>A: POST /uploads {filename, size, content_type}
+    A->>A: authorise, validate size/type, generate object key
+    A->>S: create pre-signed PUT URL (expires in 15 min)
+    A-->>C: {upload_url, object_key}
+
+    C->>S: PUT file directly (bypasses your servers entirely)
+    S-->>C: 200
+
+    C->>A: POST /uploads/{key}/complete
+    A->>S: HEAD object — verify it exists, size, checksum
+    A->>A: persist metadata row
+    A->>Q: publish MediaUploaded
+    A-->>C: 201
+
+    Q->>W: MediaUploaded
+    W->>S: read original
+    W->>W: transcode, thumbnail, scan, extract metadata
+    W->>S: write derivatives
+    W->>A: mark ready
+
+    Note over C,CDN: reads
+    C->>CDN: GET /media/{key}
+    CDN->>S: miss → fetch from origin
+    CDN-->>C: cached thereafter

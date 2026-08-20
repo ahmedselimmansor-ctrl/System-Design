@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant S as Service
+    participant DB as Database
+    participant MQ as Broker
+
+    Note over S,MQ: The broken pattern
+    S->>DB: INSERT order
+    DB-->>S: committed
+    S--xMQ: publish OrderCreated  ✗ crash / network failure
+    Note over S,MQ: Order exists, nobody was told.<br/>No payment, no email, no shipment.
+
+    Note over S,MQ: The other broken ordering
+    S->>MQ: publish OrderCreated
+    MQ-->>S: acked
+    S--xDB: INSERT order  ✗ fails
+    Note over S,MQ: Downstream acts on an order that does not exist.

@@ -1,0 +1,11 @@
+flowchart TD
+    M["Message"] --> C["Consumer"]
+    C -->|"success"| A["Ack, done"]
+    C -->|"transient failure"| R{"Retries left?"}
+    R -->|"yes"| B["Requeue with exponential backoff + jitter<br/>1s, 2s, 4s, 8s..."] --> C
+    R -->|"no"| D["Dead letter queue"]
+    C -->|"permanent failure<br/>malformed, unknown schema"| D
+    D --> AL["Alert — DLQ depth &gt; 0 is a real page"]
+    D --> I["Inspect, fix, replay"]
+    style D fill:#7d1128,color:#fff
+    style AL fill:#7d1128,color:#fff

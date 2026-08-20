@@ -1,0 +1,4 @@
+flowchart LR
+    C["Client"] --> A["Service A<br/>99.9%"] --> B["Service B<br/>99.9%"] --> D["Service C<br/>99.9%"] --> E["Database<br/>99.9%"]
+    E --> R["End-to-end<br/>99.9%^4 = 99.6%<br/>= 35 hours down per year"]
+    style R fill:#7d1128,color:#fff

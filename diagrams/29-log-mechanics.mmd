@@ -1,0 +1,18 @@
+flowchart TD
+    subgraph topic["Topic: orders — 4 partitions"]
+        P0["Partition 0<br/>0 1 2 3 4 5 →"]
+        P1["Partition 1<br/>0 1 2 3 →"]
+        P2["Partition 2<br/>0 1 2 3 4 5 6 →"]
+        P3["Partition 3<br/>0 1 2 →"]
+    end
+    PR["Producer<br/>partition = hash(order_id) % 4"] --> P0 & P1 & P2 & P3
+
+    subgraph cg["Consumer group: billing — 2 consumers"]
+        C1["Consumer 1<br/>owns P0, P1"]
+        C2["Consumer 2<br/>owns P2, P3"]
+    end
+    P0 & P1 --> C1
+    P2 & P3 --> C2
+
+    N["Ordering holds WITHIN a partition, never across<br/>Parallelism is capped at the partition count<br/>Same key ⇒ same partition ⇒ ordered per entity"]
+    style N fill:#422006,color:#fff

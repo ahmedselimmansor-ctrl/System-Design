@@ -1,0 +1,18 @@
+flowchart TD
+    subgraph orch["Orchestration — a central coordinator"]
+        O["Order orchestrator"] --> O1["Payment service"]
+        O --> O2["Inventory service"]
+        O --> O3["Shipping service"]
+        ON["+ Flow visible in one place<br/>+ Easy to reason about and debug<br/>− Coordinator is a coupling point"]
+    end
+    subgraph chor["Choreography — react to events"]
+        C1["Order service"] -->|"OrderCreated"| CB["Event bus"]
+        CB --> C2["Payment service"]
+        C2 -->|"PaymentCaptured"| CB
+        CB --> C3["Inventory service"]
+        C3 -->|"StockReserved"| CB
+        CB --> C4["Shipping service"]
+        CN["+ Fully decoupled, easy to extend<br/>− No single view of the flow<br/>− Emergent behaviour, hard to debug"]
+    end
+    style orch fill:#0b2545,color:#fff
+    style chor fill:#134e4a,color:#fff

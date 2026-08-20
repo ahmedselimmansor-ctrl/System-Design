@@ -1,0 +1,15 @@
+flowchart TD
+    subgraph M["Monolith"]
+        M1["Single deployable<br/>Single database<br/>In-process calls"]
+        M2["+ Simple, fast, transactional<br/>+ Easy refactoring, one deploy<br/>− Coupled deploys and scaling<br/>− Any bug can take down everything"]
+    end
+    subgraph MM["Modular monolith"]
+        MM1["Single deployable<br/>Enforced internal module boundaries<br/>Separate schemas per module"]
+        MM2["+ Monolith simplicity, service discipline<br/>+ Boundaries provable before extraction<br/>− Still one deploy and one runtime"]
+    end
+    subgraph MS["Microservices"]
+        MS1["Many deployables<br/>Database per service<br/>Network calls"]
+        MS2["+ Independent deploy and scale<br/>+ Team autonomy, fault isolation<br/>− Distributed debugging, latency<br/>− Data consistency becomes your job"]
+    end
+    M -->|"when teams and deploys collide"| MM -->|"when a boundary proves stable AND needs independence"| MS
+    style MM fill:#14532d,color:#fff

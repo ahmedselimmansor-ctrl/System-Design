@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant A as Client A
+    participant B as Client B
+    participant L as Lock service
+    participant R as Resource
+
+    A->>L: acquire(lock, ttl=30s)
+    L-->>A: granted, token 41
+    A->>A: long GC pause / network partition — 40 s
+    Note over L: TTL expires, lock auto-released
+    B->>L: acquire(lock, ttl=30s)
+    L-->>B: granted, token 42
+    B->>R: write (token 42)  ✓
+    A->>R: write (token 41)  ✗ rejected — stale token
+    Note over R: The FENCING TOKEN is what makes this safe.<br/>A lock with a TTL and no fencing token is not a lock.

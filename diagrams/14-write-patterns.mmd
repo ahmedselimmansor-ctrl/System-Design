@@ -1,0 +1,15 @@
+flowchart LR
+    subgraph wt["Write-through"]
+        W1["Write"] --> W2["Cache"] --> W3["DB"] --> W4["ack"]
+    end
+    subgraph wb["Write-back / write-behind"]
+        X1["Write"] --> X2["Cache"] --> X3["ack immediately"]
+        X2 -.->|"async batch flush"| X4["DB"]
+    end
+    subgraph wa["Write-around"]
+        Y1["Write"] --> Y2["DB"] --> Y3["ack"]
+        Y2 -.->|"invalidate"| Y4["Cache"]
+    end
+    style wt fill:#0b2545,color:#fff
+    style wb fill:#3b0d0d,color:#fff
+    style wa fill:#134e4a,color:#fff

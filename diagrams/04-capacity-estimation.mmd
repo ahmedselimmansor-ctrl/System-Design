@@ -1,0 +1,14 @@
+flowchart TD
+    U["Users<br/>e.g. 100M DAU"] --> A["Actions per user per day<br/>e.g. 2 writes, 100 reads"]
+    A --> D["Daily volume<br/>200M writes, 10B reads"]
+    D --> Q["Average QPS<br/>divide by 86,400"]
+    Q --> P["Peak QPS<br/>multiply by 2 to 10"]
+    D --> S["Storage per day<br/>volume x record size"]
+    S --> Y["Storage per year<br/>x 365 x replication factor"]
+    P --> B["Bandwidth<br/>QPS x payload size"]
+    P --> M["Machines<br/>peak QPS / per-node capacity"]
+    Y --> M2["Disks and shards<br/>total bytes / per-node bytes"]
+
+    style P fill:#7d1128,color:#fff
+    style M fill:#14532d,color:#fff
+    style M2 fill:#14532d,color:#fff

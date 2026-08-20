@@ -1,0 +1,27 @@
+sequenceDiagram
+    participant LB as Load balancer
+    participant B as Backend
+    participant D as Deploy system
+
+    loop every 2 s
+        LB->>B: GET /healthz  (liveness)
+        B-->>LB: 200 OK
+    end
+    Note over LB,B: 3 consecutive failures → eject from pool
+    LB->>B: GET /healthz
+    B--xLB: timeout
+    LB->>B: GET /healthz
+    B--xLB: timeout
+    LB->>B: GET /healthz
+    B--xLB: timeout
+    LB->>LB: mark unhealthy, stop routing
+    Note over LB,B: passive checks continue at a lower rate
+    B-->>LB: 200 OK (recovered)
+    LB->>LB: slow-start: ramp traffic up gradually
+
+    Note over D,B: graceful shutdown
+    D->>B: SIGTERM
+    B->>B: fail readiness check
+    LB->>LB: remove from pool
+    B->>B: finish in-flight requests (drain, ~30 s)
+    B->>D: exit

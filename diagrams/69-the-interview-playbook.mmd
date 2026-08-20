@@ -1,0 +1,9 @@
+flowchart LR
+    T1["0-5 min<br/>Requirements<br/>ask, scope, confirm"] --> T2["5-8 min<br/>Scale estimation<br/>QPS, storage, ratio"]
+    T2 --> T3["8-13 min<br/>API + data model"]
+    T3 --> T4["13-25 min<br/>High-level design<br/>draw the boxes"]
+    T4 --> T5["25-38 min<br/>Deep dive<br/>the hardest component"]
+    T5 --> T6["38-43 min<br/>Bottlenecks, failure,<br/>scale to 10x"]
+    T6 --> T7["43-45 min<br/>Trade-offs and<br/>what you would do next"]
+    style T1 fill:#14532d,color:#fff
+    style T5 fill:#7d1128,color:#fff

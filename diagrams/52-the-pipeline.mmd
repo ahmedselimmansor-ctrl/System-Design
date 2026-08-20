@@ -1,0 +1,17 @@
+flowchart LR
+    subgraph ing["Indexing — write path"]
+        S["Source of truth<br/>primary database"] -->|"CDC / outbox"| P["Ingest pipeline"]
+        P --> AN["Analysis<br/>tokenise → normalise → stem → synonyms"]
+        AN --> IX["Inverted index<br/>sharded, replicated"]
+    end
+    subgraph qry["Querying — read path"]
+        Q1["User query"] --> Q2["Query analysis<br/>same analyser as indexing"]
+        Q2 --> Q3["Retrieval<br/>candidate set from the index"]
+        Q3 --> Q4["Scoring<br/>BM25 / TF-IDF + business signals"]
+        Q4 --> Q5["Re-ranking<br/>ML model on the top N"]
+        Q5 --> Q6["Filtering, faceting, pagination"]
+        Q6 --> Q7["Results"]
+    end
+    IX --> Q3
+    style ing fill:#0b2545,color:#fff
+    style qry fill:#134e4a,color:#fff

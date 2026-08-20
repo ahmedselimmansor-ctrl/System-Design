@@ -1,0 +1,8 @@
+flowchart TD
+    F["Service degrades — 30% errors"] --> R["Clients retry 3x"]
+    R --> L["Load triples on an already-struggling service"]
+    L --> W["Error rate rises to 80%"]
+    W --> R2["More retries"]
+    R2 --> D["Total collapse — the retry storm"]
+    D -.->|"and it cannot recover<br/>because clients keep retrying"| D
+    style D fill:#7d1128,color:#fff

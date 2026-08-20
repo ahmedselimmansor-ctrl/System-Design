@@ -1,0 +1,15 @@
+flowchart TD
+    subgraph RC["Recreate"]
+        RC1["Stop all → start new"] --> RC2["Downtime. Simple. Fine for internal batch jobs."]
+    end
+    subgraph RO["Rolling"]
+        RO1["Replace instances in batches"] --> RO2["No downtime, gradual.<br/>Two versions coexist — needs compatible schemas and APIs.<br/>Rollback is another slow roll."]
+    end
+    subgraph BG["Blue-green"]
+        BG1["Two full environments; switch traffic at the LB"] --> BG2["Instant rollback.<br/>Doubles infrastructure during the switch.<br/>Database migrations are the hard part."]
+    end
+    subgraph CA["Canary"]
+        CA1["1% → 5% → 25% → 100%, watching metrics"] --> CA2["Smallest blast radius.<br/>Needs solid metrics and automated rollback.<br/>Best default for user-facing services."]
+    end
+    style CA fill:#14532d,color:#fff
+    style RC fill:#3b0d0d,color:#fff

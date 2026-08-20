@@ -1,0 +1,15 @@
+flowchart TD
+    R0["0. One box<br/>app + DB on a single server"] -->|"CPU saturated"| R1
+    R1["1. Split tiers<br/>app server and DB server"] -->|"one app node maxed"| R2
+    R2["2. Add a load balancer<br/>N stateless app nodes"] -->|"DB reads saturated"| R3
+    R3["3. Cache + read replicas<br/>absorb the read traffic"] -->|"static assets and latency"| R4
+    R4["4. CDN + object storage<br/>move bytes to the edge"] -->|"slow synchronous work"| R5
+    R5["5. Queues + workers<br/>make the write path async"] -->|"DB writes saturated"| R6
+    R6["6. Partition the data<br/>functional split, then shard"] -->|"team and deploy coupling"| R7
+    R7["7. Service decomposition<br/>independent deploys"] -->|"region-level risk / global users"| R8
+    R8["8. Multi-region<br/>active-passive then active-active"]
+
+    style R0 fill:#14532d,color:#fff
+    style R3 fill:#0d3b66,color:#fff
+    style R6 fill:#7d1128,color:#fff
+    style R8 fill:#4a044e,color:#fff

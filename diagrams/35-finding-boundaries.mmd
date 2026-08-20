@@ -1,0 +1,15 @@
+flowchart TD
+    subgraph good["Good boundaries — cohesive, autonomous"]
+        G1["Ordering<br/>owns orders, order items, status"]
+        G2["Payments<br/>owns transactions, refunds, payment methods"]
+        G3["Inventory<br/>owns stock levels, reservations"]
+        G4["Shipping<br/>owns shipments, carriers, tracking"]
+    end
+    subgraph bad["Bad boundaries — anaemic layers"]
+        B1["Database service"]
+        B2["Business logic service"]
+        B3["Validation service"]
+        B4["Every feature touches all four"]
+    end
+    style good fill:#14532d,color:#fff
+    style bad fill:#7d1128,color:#fff

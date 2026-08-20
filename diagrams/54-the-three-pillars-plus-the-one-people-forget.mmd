@@ -1,0 +1,23 @@
+flowchart TD
+    subgraph M["Metrics"]
+        M1["Numeric time series<br/>counters, gauges, histograms"]
+        M2["Cheap, aggregatable, long retention<br/>Answers: is it broken? how bad?"]
+        M3["Cannot answer: which request? why?"]
+    end
+    subgraph L["Logs"]
+        L1["Discrete structured events"]
+        L2["High detail, high cost<br/>Answers: what exactly happened here?"]
+        L3["Expensive to store and search at volume"]
+    end
+    subgraph T["Traces"]
+        T1["Causally linked spans across services"]
+        T2["Answers: where did the latency go?<br/>which dependency failed?"]
+        T3["Needs propagated context; usually sampled"]
+    end
+    subgraph P["Profiles"]
+        P1["CPU, memory, lock contention by line"]
+        P2["Answers: why is this service itself slow?"]
+    end
+    M --> D["Alert fires"] --> T --> L --> P --> R["Root cause"]
+    style D fill:#7d1128,color:#fff
+    style R fill:#14532d,color:#fff

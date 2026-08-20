@@ -1,0 +1,5 @@
+flowchart LR
+    W["Last good state"] -->|"RPO — how much data you may lose"| F["Failure event"]
+    F -->|"RTO — how long until you are serving again"| R["Recovered"]
+    style F fill:#7d1128,color:#fff
+    style R fill:#14532d,color:#fff

@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant U as User
+    participant C as Client app
+    participant A as Authorisation server
+    participant R as Resource API
+
+    U->>C: sign in
+    C->>A: /authorize  (PKCE challenge, redirect URI)
+    A->>U: login + consent
+    U->>A: credentials + MFA
+    A-->>C: authorisation code
+    C->>A: /token  (code + PKCE verifier)
+    A-->>C: access token (short-lived) + refresh token
+    C->>R: GET /orders  Authorization: Bearer <token>
+    R->>R: verify signature, issuer, audience, expiry
+    R->>R: authorise: does this subject own this object?
+    R-->>C: 200 or 403

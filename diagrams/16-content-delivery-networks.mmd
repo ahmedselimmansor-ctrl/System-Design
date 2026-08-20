@@ -1,0 +1,16 @@
+flowchart TD
+    U1["User in Cairo"] --> P1["Edge PoP — Cairo"]
+    U2["User in São Paulo"] --> P2["Edge PoP — São Paulo"]
+    U3["User in Tokyo"] --> P3["Edge PoP — Tokyo"]
+
+    P1 -->|"miss"| S1["Regional shield<br/>EMEA"]
+    P2 -->|"miss"| S2["Regional shield<br/>LATAM"]
+    P3 -->|"miss"| S3["Regional shield<br/>APAC"]
+
+    S1 & S2 & S3 -->|"miss"| O["Origin<br/>your infrastructure"]
+    O --> B["Object storage"]
+
+    style P1 fill:#14532d,color:#fff
+    style P2 fill:#14532d,color:#fff
+    style P3 fill:#14532d,color:#fff
+    style O fill:#7d1128,color:#fff

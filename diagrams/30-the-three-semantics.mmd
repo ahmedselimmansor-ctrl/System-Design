@@ -1,0 +1,13 @@
+flowchart TD
+    subgraph amo["At-most-once"]
+        A1["Send, do not retry"] --> A2["Fast, simple"] --> A3["Messages CAN be lost"]
+    end
+    subgraph alo["At-least-once"]
+        B1["Send, retry until acked"] --> B2["Never lost"] --> B3["Duplicates ARE possible"]
+    end
+    subgraph eo["Exactly-once"]
+        C1["Impossible end-to-end<br/>across arbitrary systems"] --> C2["Achievable as:<br/>at-least-once delivery<br/>+ idempotent processing"]
+    end
+    style amo fill:#3b0d0d,color:#fff
+    style alo fill:#134e4a,color:#fff
+    style eo fill:#0b2545,color:#fff

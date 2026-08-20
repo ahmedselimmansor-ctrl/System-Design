@@ -1,0 +1,14 @@
+flowchart TD
+    U["User request"] --> C1["1. Browser cache<br/>HTTP headers, service worker<br/>~0 ms"]
+    C1 -->|"miss"| C2["2. CDN / edge PoP<br/>~10-30 ms"]
+    C2 -->|"miss"| C3["3. Reverse proxy cache<br/>Nginx / Varnish<br/>~1 ms"]
+    C3 -->|"miss"| C4["4. API gateway cache<br/>response cache"]
+    C4 -->|"miss"| C5["5. Application in-process cache<br/>local LRU, ~100 ns"]
+    C5 -->|"miss"| C6["6. Distributed cache<br/>Redis / Memcached, ~0.5 ms"]
+    C6 -->|"miss"| C7["7. Database buffer pool<br/>pages in RAM"]
+    C7 -->|"miss"| D["Disk<br/>~0.1-16 ms"]
+
+    style C1 fill:#14532d,color:#fff
+    style C2 fill:#14532d,color:#fff
+    style C6 fill:#0d3b66,color:#fff
+    style D fill:#7d1128,color:#fff
