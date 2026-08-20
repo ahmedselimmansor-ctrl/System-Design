@@ -3,7 +3,7 @@
 **Everything that goes into designing a large-scale system: the method, the building blocks, the failure modes, and the trade-offs — explained with diagrams.**
 
 ![Topic](https://img.shields.io/badge/topic-System%20Design-2F81F7)
-![Diagrams](https://img.shields.io/badge/diagrams-40%2B%20Mermaid-1C3C3C)
+![Diagrams](https://img.shields.io/badge/diagrams-182%20Mermaid-1C3C3C)
 ![Deep dives](https://img.shields.io/badge/deep%20dives-13%20documents-6E40C9)
 ![Case studies](https://img.shields.io/badge/case%20studies-10-238636)
 ![Level](https://img.shields.io/badge/level-junior%20%E2%86%92%20staff-orange)
